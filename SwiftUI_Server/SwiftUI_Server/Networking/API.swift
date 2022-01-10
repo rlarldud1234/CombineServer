@@ -1,7 +1,7 @@
 import Foundation
 import Moya
 
-enum APi {
+enum API {
     
     //Auth
     case signIn(_ id: String, _ pw: String)
@@ -14,7 +14,7 @@ enum APi {
     case deletePost(_ id: Int)
 }
 
-extension APi: TargetType {
+extension API: TargetType {
     var baseURL: URL {
         URL(string: "http://13.125.241.176:8080")!
     }
