@@ -13,22 +13,29 @@ import Combine
 final class Service {
     
     let provider = MoyaProvider<API>()
-}
-
-extension MoyaProvider {
     
-    func requestPublihser<T: Codable>(_ target: Target, _ model: T) -> AnyPublisher<T, NetworkError> {
-        return self.requestPublisher(target)
-            .map(T.self)
-            .map { return $0 }
-            .mapError { NetworkError($0) }
-            .eraseToAnyPublisher()
+    func signIn(_ id: String, _ pw: String) -> AnyPublisher<Void, NetworkError> {
+        return provider.requestTokenPublisher(.signIn(id, pw))
     }
     
-    func requestVoidPublihser(_ target: Target) -> AnyPublisher<Void, NetworkError> {
-        return self.requestVoidPublihser(target)
-            .map{ _ in return }
-            .mapError { NetworkError($0) }
-            .eraseToAnyPublisher()
+    func signUp(_ name: String, _ id: String, _ pw: String) -> AnyPublisher<Void, NetworkError> {
+        return provider.requestVoidPublihser(.signUp(name, id, pw))
     }
+    
+    func checkId(_ id: String) -> AnyPublisher<Void, NetworkError> {
+        return provider.requestVoidPublihser(.checkId(id))
+    }
+    
+    func getPost() -> AnyPublisher<CommunityList, NetworkError> {
+        return provider.requestPublihser(.getPost, CommunityList.self)
+    }
+    
+    func writePost(_ title: String, _ content: String) -> AnyPublisher<Void, NetworkError> {
+        return provider.requestVoidPublihser(.writePost(title, content))
+    }
+    
+    func deletePost(_ id: Int) -> AnyPublisher<Void, NetworkError> {
+        return provider.requestVoidPublihser(.deletePost(id))
+    }
+    
 }
