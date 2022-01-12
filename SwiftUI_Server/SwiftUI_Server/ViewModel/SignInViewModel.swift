@@ -1,8 +1,25 @@
-//
-//  SignInViewModel.swift
-//  SwiftUI_Server
-//
-//  Created by 김기영 on 2022/01/11.
-//
-
 import Foundation
+import Combine
+
+class SignInViewModel: ObservableObject {
+    
+    @Published var id = String()
+    @Published var pw = String()
+    
+    @Published var isSuccess = false
+    @Published var errorMessage = String()
+    
+    private let api = Service()
+    private var bag = Set<AnyCancellable>()
+    
+    func login() {
+        api.signIn(id, pw).catch { error -> Empty<Void, Never> in
+            self.errorMessage = NetworkError(error).message
+            self.isSuccess = false
+            return .init()
+        }.sink(receiveValue: { [weak self] _ in
+            self?.isSuccess = true
+        }).store(in: &bag)
+    }
+    
+}
