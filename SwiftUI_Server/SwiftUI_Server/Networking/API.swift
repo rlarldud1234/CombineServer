@@ -61,7 +61,8 @@ extension API: TargetType {
     }
     
     var headers: [String : String]? {
-        return ["": ""]
+        guard let token = TokenManager.currentToken?.access_token else { return nil }
+        return ["Authorization" : "Bearer " + token]
     }
     
     
