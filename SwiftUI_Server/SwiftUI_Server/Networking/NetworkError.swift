@@ -8,6 +8,7 @@ enum NetworkError: Int, Error {
     case tokenError = 401
     case forbidden = 403
     case notFound = 404
+    case conflict = 409
     case notRes = 1
     case fail = 0
     
