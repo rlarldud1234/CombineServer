@@ -3,8 +3,8 @@ import Combine
 
 class SignInViewModel: ObservableObject {
     
-    @Published var id = String()
-    @Published var pw = String()
+    @Published var id: String = ""
+    @Published var pw: String = ""
     
     @Published var isSuccess = false
     @Published var errorMessage = String()
@@ -18,6 +18,7 @@ class SignInViewModel: ObservableObject {
             self.isSuccess = false
             return .init()
         }.sink(receiveValue: { [weak self] _ in
+            print("login성공")
             self?.isSuccess = true
         }).store(in: &bag)
     }
